@@ -1,78 +1,61 @@
-# -*- coding: utf-8 -*-
 """
     :codeauthor: Jayesh Kariya <jayeshk@saltstack.com>
 """
-# Import Python libs
-from __future__ import absolute_import, print_function, unicode_literals
 
-# Import Salt Libs
+import pytest
 import salt.states.splunk_search as splunk_search
-
-# Import Salt Testing Libs
-from tests.support.mixins import LoaderModuleMockMixin
 from tests.support.mock import MagicMock, patch
-from tests.support.unit import TestCase
 
 
-class SplunkSearchTestCase(TestCase, LoaderModuleMockMixin):
+@pytest.fixture
+def configure_loader_modules():
+    return {splunk_search: {}}
+
+
+def test_present():
     """
-    Test cases for salt.states.splunk_search
+    Test to ensure a search is present.
     """
+    name = "API Error Search"
 
-    def setup_loader_modules(self):
-        return {splunk_search: {}}
+    ret = {"name": name, "changes": {}, "result": None, "comment": ""}
 
-    # 'present' function tests: 1
+    mock = MagicMock(side_effect=[True, False, False, True])
+    with patch.dict(
+        splunk_search.__salt__,
+        {"splunk_search.get": mock, "splunk_search.create": mock},
+    ):
+        with patch.dict(splunk_search.__opts__, {"test": True}):
+            comt = "Would update {}".format(name)
+            ret.update({"comment": comt})
+            assert splunk_search.present(name) == ret
 
-    def test_present(self):
-        """
-        Test to ensure a search is present.
-        """
-        name = "API Error Search"
+            comt = "Would create {}".format(name)
+            ret.update({"comment": comt})
+            assert splunk_search.present(name) == ret
 
-        ret = {"name": name, "changes": {}, "result": None, "comment": ""}
+        with patch.dict(splunk_search.__opts__, {"test": False}):
+            ret.update(
+                {"comment": "", "result": True, "changes": {"new": {}, "old": False}}
+            )
+            assert splunk_search.present(name) == ret
 
-        mock = MagicMock(side_effect=[True, False, False, True])
-        with patch.dict(
-            splunk_search.__salt__,
-            {"splunk_search.get": mock, "splunk_search.create": mock},
-        ):
-            with patch.dict(splunk_search.__opts__, {"test": True}):
-                comt = "Would update {0}".format(name)
-                ret.update({"comment": comt})
-                self.assertDictEqual(splunk_search.present(name), ret)
 
-                comt = "Would create {0}".format(name)
-                ret.update({"comment": comt})
-                self.assertDictEqual(splunk_search.present(name), ret)
+def test_absent():
+    """
+    Test to ensure a search is absent.
+    """
+    name = "API Error Search"
 
-            with patch.dict(splunk_search.__opts__, {"test": False}):
-                ret.update(
-                    {
-                        "comment": "",
-                        "result": True,
-                        "changes": {"new": {}, "old": False},
-                    }
-                )
-                self.assertDictEqual(splunk_search.present(name), ret)
+    ret = {"name": name, "result": None, "comment": ""}
 
-    # 'absent' function tests: 1
+    mock = MagicMock(side_effect=[True, False])
+    with patch.dict(splunk_search.__salt__, {"splunk_search.get": mock}):
+        with patch.dict(splunk_search.__opts__, {"test": True}):
+            comt = "Would delete {}".format(name)
+            ret.update({"comment": comt})
+            assert splunk_search.absent(name) == ret
 
-    def test_absent(self):
-        """
-        Test to ensure a search is absent.
-        """
-        name = "API Error Search"
-
-        ret = {"name": name, "result": None, "comment": ""}
-
-        mock = MagicMock(side_effect=[True, False])
-        with patch.dict(splunk_search.__salt__, {"splunk_search.get": mock}):
-            with patch.dict(splunk_search.__opts__, {"test": True}):
-                comt = "Would delete {0}".format(name)
-                ret.update({"comment": comt})
-                self.assertDictEqual(splunk_search.absent(name), ret)
-
-            comt = "{0} is absent.".format(name)
-            ret.update({"comment": comt, "result": True, "changes": {}})
-            self.assertDictEqual(splunk_search.absent(name), ret)
+        comt = "{} is absent.".format(name)
+        ret.update({"comment": comt, "result": True, "changes": {}})
+        assert splunk_search.absent(name) == ret
