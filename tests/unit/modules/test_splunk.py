@@ -1,5 +1,6 @@
 import pytest
 import salt.modules.test as testmod
+
 import saltext.splunk.modules.splunk_mod as splunk_module
 
 

@@ -18,6 +18,7 @@ Module for interop with the Splunk API
             host: example.splunkcloud.com
             port: 8080
 """
+
 import logging
 import urllib.parse
 
@@ -289,7 +290,7 @@ def list_all(
         d = [{"name": name}]
         # add the rest of the splunk settings, ignoring any defaults
         description = ""
-        for (k, v) in sorted(search.content.items()):
+        for k, v in sorted(search.content.items()):
             if k in readonly_keys:
                 continue
             if k.startswith("display."):
