@@ -86,9 +86,7 @@ def _send_email(name, email):
     if email_object:
         cc = email_object.get("cc")
         subject = email_object.get("subject")
-        message = email_object.get("message").format(
-            name, name, _generate_password(email), name
-        )
+        message = email_object.get("message").format(name, name, _generate_password(email), name)
 
         try:
             mail_process = subprocess.Popen(

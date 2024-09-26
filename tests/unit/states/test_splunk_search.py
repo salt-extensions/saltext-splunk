@@ -2,10 +2,12 @@
     :codeauthor: Jayesh Kariya <jayeshk@saltstack.com>
 """
 
+from unittest.mock import MagicMock
+from unittest.mock import patch
+
 import pytest
 
-import salt.states.splunk_search as splunk_search
-from tests.support.mock import MagicMock, patch
+import saltext.splunk.states.splunk_search as splunk_search
 
 
 @pytest.fixture
@@ -36,9 +38,7 @@ def test_present():
             assert splunk_search.present(name) == ret
 
         with patch.dict(splunk_search.__opts__, {"test": False}):
-            ret.update(
-                {"comment": "", "result": True, "changes": {"new": {}, "old": False}}
-            )
+            ret.update({"comment": "", "result": True, "changes": {"new": {}, "old": False}})
             assert splunk_search.present(name) == ret
 
 

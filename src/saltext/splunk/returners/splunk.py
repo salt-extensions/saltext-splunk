@@ -23,7 +23,6 @@ import socket
 import time
 
 import requests
-
 import salt.utils.json
 
 _max_content_bytes = 100000
@@ -91,9 +90,7 @@ def _get_options():
         indexer = __salt__["config.get"]("splunk_http_forwarder:indexer")
         sourcetype = __salt__["config.get"]("splunk_http_forwarder:sourcetype")
         index = __salt__["config.get"]("splunk_http_forwarder:index")
-        verify_ssl = __salt__["config.get"](
-            "splunk_http_forwarder:verify_ssl", default=True
-        )
+        verify_ssl = __salt__["config.get"]("splunk_http_forwarder:verify_ssl", default=True)
     except Exception:  # pylint: disable=broad-except
         log.error("Splunk HTTP Forwarder parameters not present in config.")
         return None
