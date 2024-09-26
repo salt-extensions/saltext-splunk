@@ -95,7 +95,8 @@ def _send_email(name, email):
         except Exception as e:  # pylint: disable=broad-except
             log.error("unable to send email to %s: %s", email, e)
 
-        mail_process.communicate(message)
+        with mail_process:
+            mail_process.communicate(message)
 
         log.info("sent account creation email to %s", email)
 
@@ -264,7 +265,7 @@ def update_user(email, profile="splunk", **kwargs):
         salt myminion splunk.update_user example@domain.com roles=['user'] realname="Test User"
     """
 
-    client = _get_splunk(profile)
+    _get_splunk(profile)
 
     email = email.lower()
 

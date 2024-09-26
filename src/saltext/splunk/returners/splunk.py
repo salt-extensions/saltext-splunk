@@ -25,6 +25,7 @@ import time
 import requests
 import salt.utils.json
 
+# pylint: disable=invalid-name
 _max_content_bytes = 100000
 http_event_collector_debug = False
 

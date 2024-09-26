@@ -7,9 +7,9 @@ from unittest.mock import MagicMock
 from unittest.mock import patch
 
 import pytest
-import salt.modules.config as config
+from salt.modules import config
 
-import saltext.splunk.returners.splunk as splunk
+from saltext.splunk.returners import splunk
 
 
 @pytest.fixture
@@ -98,7 +98,7 @@ def test_verify_event_returner():
         splunk.__opts__["splunk_http_forwarder"], verify_ssl=verify_ssl
     ):
         splunk.event_return(payload)
-        for i in range(len(payload)):
+        for _ in range(len(payload)):
             assert json.loads(requests_post.call_args_list[0][1]["data"])["event"] in payload
             assert requests_post.call_args_list[0][1]["verify"] == verify_ssl
             assert requests_post.call_args_list[0][1]["headers"] == {

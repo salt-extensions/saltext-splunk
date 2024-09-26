@@ -7,7 +7,7 @@ from unittest.mock import patch
 
 import pytest
 
-import saltext.splunk.states.splunk_search as splunk_search
+from saltext.splunk.states import splunk_search
 
 
 @pytest.fixture

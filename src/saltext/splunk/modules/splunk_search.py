@@ -118,7 +118,7 @@ def update(name, profile="splunk", **kwargs):
     props = _get_splunk_search_props(search)
     updates = kwargs
     update_needed = False
-    update_set = dict()
+    update_set = {}
     diffs = []
     for key in sorted(kwargs):
         old_value = props.get(key, None)
