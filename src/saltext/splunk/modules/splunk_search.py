@@ -1,22 +1,8 @@
 """
-Module for interop with the Splunk API
+Interface with the Splunk search API.
 
-.. versionadded:: 2015.5.0
-
-:depends:   - splunk-sdk python module
-:configuration: Configure this module by specifying the name of a configuration
-    profile in the minion config, minion pillar, or master config. The module
-    will use the 'splunk' key by default, if defined.
-
-    For example:
-
-    .. code-block:: yaml
-
-        splunk:
-            username: alice
-            password: abc123
-            host: example.splunkcloud.com
-            port: 8080
+.. important::
+    This module requires the general :ref:`Splunk setup <splunk-setup>`.
 """
 
 import logging
@@ -44,9 +30,6 @@ __virtualname__ = "splunk_search"
 
 
 def __virtual__():
-    """
-    Only load this module if splunk is installed on this minion.
-    """
     if HAS_LIBS:
         return __virtualname__
     return (

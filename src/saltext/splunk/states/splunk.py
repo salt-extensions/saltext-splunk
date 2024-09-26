@@ -1,8 +1,8 @@
 """
-Splunk User State Module
+Statefully manage Splunk users.
 
-.. versionadded:: 2016.3.0
-
+Usage
+-----
 This state is used to ensure presence of users in splunk.
 
 .. code-block:: yaml
@@ -15,9 +15,6 @@ This state is used to ensure presence of users in splunk.
 
 
 def __virtual__():
-    """
-    Only load if the splunk module is available in __salt__
-    """
     if "splunk.list_users" in __salt__:
         return "splunk"
     return (False, "splunk module could not be loaded")

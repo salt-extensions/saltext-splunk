@@ -1,8 +1,8 @@
 """
-Splunk Search State Module
+Statefully manage Splunk searches.
 
-.. versionadded:: 2015.5.0
-
+Usage
+-----
 This state is used to ensure presence of splunk searches.
 
 .. code-block:: yaml
@@ -15,9 +15,6 @@ This state is used to ensure presence of splunk searches.
 
 
 def __virtual__():
-    """
-    Only load if the splunk_search module is available in __salt__
-    """
     if "splunk_search.get" in __salt__:
         return "splunk_search"
     return (False, "splunk module could not be loaded")

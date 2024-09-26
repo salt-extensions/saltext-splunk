@@ -1,21 +1,12 @@
 """
+Send json response data to Splunk via the HTTP Event Collector.
 
-Send json response data to Splunk via the HTTP Event Collector
-Requires the following config values to be specified in config or pillar:
-
-.. code-block:: yaml
-
-    splunk_http_forwarder:
-      token: <splunk_http_forwarder_token>
-      indexer: <hostname/IP of Splunk indexer>
-      sourcetype: <Destination sourcetype for data>
-      index: <Destination index for data>
-      verify_ssl: true
+.. important::
+    This module requires the general :ref:`Splunk setup <splunk-setup>`.
 
 Run a test by using ``salt-call test.ping --return splunk``
 
 Written by Scott Pack (github.com/scottjpack)
-
 """
 
 import logging
@@ -35,10 +26,6 @@ __virtualname__ = "splunk"
 
 
 def __virtual__():
-    """
-    Return virtual name of the module.
-    :return: The virtual name of the module.
-    """
     return __virtualname__
 
 
