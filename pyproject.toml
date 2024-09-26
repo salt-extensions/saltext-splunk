@@ -39,7 +39,7 @@ dynamic = ["version"]
 dependencies = [
     "salt>=3006",
     "requests",
-    "splunk-sdk",
+    "splunk-sdk; platform_system == 'Linux'",
 ]
 
 [project.readme]
