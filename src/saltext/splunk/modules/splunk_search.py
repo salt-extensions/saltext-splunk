@@ -11,14 +11,13 @@ import urllib.parse
 import salt.utils.yaml
 from salt.utils.odict import OrderedDict
 
-HAS_LIBS = False
 try:
     import requests
     import splunklib.client
 
     HAS_LIBS = True
 except ImportError:
-    pass
+    HAS_LIBS = False
 
 
 log = logging.getLogger(__name__)
