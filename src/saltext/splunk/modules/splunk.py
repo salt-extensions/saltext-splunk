@@ -10,7 +10,6 @@ import hmac
 import logging
 import subprocess
 
-HAS_LIBS = False
 try:
     import splunklib.client
     from splunklib.binding import HTTPError
@@ -18,7 +17,7 @@ try:
 
     HAS_LIBS = True
 except ImportError:
-    pass
+    HAS_LIBS = False
 
 log = logging.getLogger(__name__)
 

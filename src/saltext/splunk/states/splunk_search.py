@@ -50,7 +50,7 @@ def present(name, profile="splunk", **kwargs):
             ret["result"] = True
             ret["comment"] = "No changes"
         else:
-            (newvalues, diffs) = result
+            newvalues, diffs = result
             old_content = dict(target.content)
             old_changes = {}
             for x in newvalues:
